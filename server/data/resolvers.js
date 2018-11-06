@@ -1,4 +1,3 @@
-// data/resolvers.js
 "use strict";
 
 const { GraphQLScalarType } = require("graphql");
@@ -7,8 +6,13 @@ const { User, Post, Tag } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
-require("dotenv").config();
 
+const models = require("../models");
+
+const { tryLogin } = require("../auth");
+const formatErrors = require("../formatErrors");
+
+require("dotenv").config();
 // Defining the resolvers
 
 const resolvers = {
@@ -18,61 +22,128 @@ const resolvers = {
       return await User.all();
     },
     // Fetch User by ID
-    async fetchUser(_, { id }) {
+    async fetchUser(parent, { id }) {
       return await User.findById(id);
     },
+    async getProfile(parent, { email }, { user }) {
+      if (user) {
+        //user is logged in
+        return User.findOne({
+          where: {
+            id: user.id
+          }
+        });
+      }
+      return null;
+    },
     // Fetch All Posts
-    async allPosts() {
+    async allPosts(parent, args, { authUser }) {
+      // Make sure user is logged in
+      if (!authUser) {
+        throw new Error("You must log in to continue!");
+      }
       return await Post.all();
     },
     // Fetch Post by ID
-    async fetchPost(_, { id }) {
+    async fetchPost(parent, { id }) {
       return await Post.findById(id);
     },
     // Fetch All Tags
-    async allTags(_, args, { user }) {
+    async allTags(parent, args, { user }) {
       return await Tag.all();
     },
     // Fetch Tag by ID
-    async fetchTag(_, { id }) {
+    async fetchTag(parent, { id }) {
       return await Tag.findById(id);
     }
   },
   Mutation: {
     // Handle User Login
-    async login(_, { email, password }) {
-      const user = await User.findOne({ where: { email } });
-      if (!user) {
-        throw new Error("User not found");
-      }
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid) {
-        throw new Error("Invalid password");
-      }
-      // Return JSON Web Token
-      return jwt.sign(
-        {
-          id: user.id,
-          email: user.email
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "1y" }
-      );
-    },
+
+    // async login(parent, { email, password, rememberMe }) {
+    //   // check if user exist
+    //   const user = await User.findOne({ where: { email } });
+    //   if (!user) {
+    //     return {
+    //       ok: false,
+    //       errors: [{ path: "email", message: "Wrong email" }]
+    //     };
+    //   }
+
+    //   // check if password is correct
+    //   const valid = await bcrypt.compare(password, user.password);
+    //   if (!valid) {
+    //     return {
+    //       ok: false,
+    //       errors: [{ path: "password", message: "Wrong password" }]
+    //     };
+    //   }
+
+    //   const token = jwt.sign(
+    //     {
+    // id: user.id,
+    // role: user.role,
+    // rememberMe: user.rememberMe,
+    // isLoggedIn: true
+    //     },
+    //     process.env.JWT_SECRET,
+    //     { expiresIn: "12h" }
+    //   );
+
+    //   return token;
+    // },
+
+    login: (parent, { email, password, rememberMe }) =>
+      tryLogin(email, password, rememberMe, User),
+
     // Create User
-    async createUser(_, { firstName, lastName, email, password, isActive }) {
-      return await User.create({
-        firstName,
-        lastName,
-        email,
-        password: await bcrypt.hash(password, 10),
-        isActive
-      });
+    // async createUser(
+    //   parent,
+    //   { firstName, lastName, email, username, password, role, isActive }
+    // ) {
+    //   return await User.create({
+    //     firstName,
+    //     lastName,
+    //     email,
+    //     username,
+    //     password: await bcrypt.hash(password, 12),
+    //     role,
+    //     isActive
+    //   });
+    // },
+
+    async createUser(
+      parent,
+      { firstName, lastName, email, username, password, role, isActive }
+    ) {
+      try {
+        const user = await User.create({
+          firstName,
+          lastName,
+          email,
+          username,
+          password: await bcrypt.hash(password, 12),
+          role,
+          isActive
+        });
+
+        return {
+          ok: true,
+          user
+        };
+      } catch (err) {
+        console.log(err);
+        return {
+          ok: false,
+          errors: formatErrors(err, models)
+        };
+      }
     },
+
     // Update a User
     async updateUser(
-      _,
-      { id, firstName, lastName, email, password, isActive },
+      parent,
+      { id, firstName, lastName, email, username, isActive },
       { authUser }
     ) {
       // Make sure user is logged in
@@ -88,14 +159,14 @@ const resolvers = {
         firstName,
         lastName,
         email,
-        password: await bcrypt.hash(password, 10),
+        username,
         isActive
       });
 
       return user;
     },
     // Update User's Password
-    async updateUserPassword(_, { id, password }, { authUser }) {
+    async updateUserPassword(parent, { id, password }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -106,13 +177,13 @@ const resolvers = {
 
       // Update the user
       await user.update({
-        password: await bcrypt.hash(password, 10)
+        password: await bcrypt.hash(password, 12)
       });
 
       return user;
     },
     // Update User's Status
-    async updateUserStatus(_, { id, isActive }, { authUser }) {
+    async updateUserStatus(parent, { id, isActive }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -129,7 +200,7 @@ const resolvers = {
       return user;
     },
     // Add a new post
-    async addPost(_, { title, content, status, tags }, { authUser }) {
+    async addPost(parent, { title, content, status, tags }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -147,7 +218,11 @@ const resolvers = {
       return post;
     },
     // Update a particular post
-    async updatePost(_, { id, title, content, status, tags }, { authUser }) {
+    async updatePost(
+      parent,
+      { id, title, content, status, tags },
+      { authUser }
+    ) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -166,7 +241,7 @@ const resolvers = {
       return post;
     },
     // Delete a specified post
-    async deletePost(_, { id }, { authUser }) {
+    async deletePost(parent, { id }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -176,7 +251,7 @@ const resolvers = {
       return await post.destroy();
     },
     // Add a new tag
-    async addTag(_, { name, description }, { authUser }) {
+    async addTag(parent, { name, description }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -188,7 +263,7 @@ const resolvers = {
       });
     },
     // Update a particular tag
-    async updateTag(_, { id, name, description }, { authUser }) {
+    async updateTag(parent, { id, name, description }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");
@@ -204,7 +279,7 @@ const resolvers = {
       return tag;
     },
     // Delete a specified tag
-    async deleteTag(_, { id }, { authUser }) {
+    async deleteTag(parent, { id }, { authUser }) {
       // Make sure user is logged in
       if (!authUser) {
         throw new Error("You must log in to continue!");

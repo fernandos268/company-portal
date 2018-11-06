@@ -1,34 +1,51 @@
-import React, { Component } from "react";
-
+import React, { Component, Fragment } from "react";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, createNetworkInterface, graphql } from "react-apollo";
+import { HttpLink } from "apollo-link";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./Reducers/rootReducer";
+import localStorage from "localStorage";
+import jwtDecode from "jwt-decode";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+//AESTHETICS COMPONENT
+import Background from "./Components/Design/Background";
 
-import Login from "./Views/Pages/Login";
-import Home from "./Views/Pages/Home";
+//AUTHENTICATION HELPER
+import AuthService from "./Components/AuthHelper/AuthService";
+import WithAuth from "./Components/AuthHelper/WithAuth";
+
+// ROUTE COMPONENTS
+import Home from "./Routes/Home";
 
 //apollo client setup
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphiql"
+  uri: "http://localhost:3080/graphql"
 });
 
-export default class App extends Component {
+const store = createStore(rootReducer);
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false,
-      user: "Fern",
-      jwt: "tw424-wr-$%62-123fsdf",
-      userType: "Admin"
+      isAuthenticated: false,
+      user: null
     };
   }
 
   render() {
-    return (
-      <ApolloProvider client={client}>
-        <div>{this.state.isLoggedIn ? <Home /> : <Login />}</div>
-      </ApolloProvider>
-    );
+    console.log(this.props.tokenContent);
+    return <Home />;
   }
 }
+
+export default WithAuth(App);

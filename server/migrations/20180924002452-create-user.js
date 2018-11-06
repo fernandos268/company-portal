@@ -22,8 +22,21 @@ module.exports = {
         unique: true,
         allowNull: false
       },
+      username: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+      },
       password: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
       },
       createdAt: {
@@ -32,10 +45,6 @@ module.exports = {
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false
-      },
-      isActive: {
-        type: Sequelize.BOOLEAN,
         allowNull: false
       }
     });
