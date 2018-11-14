@@ -116,7 +116,7 @@ class LoginForm extends Component {
             <Card
               bordered={false}
               headStyle={{
-                background: "#1890ff"
+                background: "linear-gradient(to right, #009EFA,#00D2FC)"
               }}
               title={
                 <Header as="h2" style={{ color: "white" }} textAlign="left">

@@ -27,10 +27,10 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route exact path="/" component={App} />
-        <Route exact path="/Login" component={Login} />
-        <Route exact path="/Register" component={Register} />
-        <Route exact path="/ForgotPassword" component={ForgotPassword} />
-        <Route render={() => <h1>Not Found</h1>} />
+        <Route path="/Login" component={Login} />
+        <Route path="/Register" component={Register} />
+        <Route path="/ForgotPassword" component={ForgotPassword} />
+        <Route render={() => <h1>Page Not Found</h1>} />
       </Switch>
     </Router>
   </ApolloProvider>,
