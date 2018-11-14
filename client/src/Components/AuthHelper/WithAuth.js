@@ -11,7 +11,8 @@ export default function WithAuth(AuthComponent) {
       super();
 
       this.state = {
-        tokenContent: null
+        tokenContent: null,
+        isRememberMe: false
       };
     }
     componentWillMount() {
@@ -20,9 +21,9 @@ export default function WithAuth(AuthComponent) {
       } else {
         try {
           const tokenContent = decodeToken();
-
           this.setState({
-            tokenContent: tokenContent
+            tokenContent: tokenContent,
+            rememberMe: tokenContent.rememberMe
           });
         } catch (err) {
           removeToken();

@@ -9,7 +9,9 @@ const createTokens = async (user, secret, secret2, rememberMe) => {
     {
       // user: _.pick(user, ["id"])
       id: user.id,
+      username: user.username,
       role: user.role,
+      isActive: user.isActive,
       rememberMe: rememberMe
     },
     secret,
@@ -22,7 +24,9 @@ const createTokens = async (user, secret, secret2, rememberMe) => {
     {
       // user: _.pick(user, "id")
       id: user.id,
+      username: user.username,
       role: user.role,
+      isActive: user.isActive,
       rememberMe: rememberMe
     },
     secret2,
@@ -82,10 +86,6 @@ module.exports.refreshTokens = async function(
 };
 
 module.exports.tryLogin = async (email, password, rememberMe, userModel) => {
-  console.log(`email : ${email}`);
-  console.log(`password : ${password}`);
-  console.log(`rememberMe : ${rememberMe}`);
-
   const user = await userModel.findOne({ where: { email } });
   if (!user) {
     // user with provided email not found

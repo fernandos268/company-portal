@@ -20,7 +20,7 @@ import {
 import Background from "./Components/Design/Background";
 
 //AUTHENTICATION HELPER
-import AuthService from "./Components/AuthHelper/AuthService";
+
 import WithAuth from "./Components/AuthHelper/WithAuth";
 
 // ROUTE COMPONENTS
@@ -43,8 +43,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.tokenContent);
-    return <Home />;
+    return <Home tokenContent={this.props.tokenContent} />;
   }
 }
 

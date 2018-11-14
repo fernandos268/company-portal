@@ -71,6 +71,7 @@ class RegisterForm extends Component {
 
           const { ok, errors } = response.data.createUser;
           if (ok) {
+            message.success("This is a message of success");
             this.props.history.replace("/");
           } else {
             if (errors[0].path === "email") {

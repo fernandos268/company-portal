@@ -3,8 +3,9 @@ import React, { Component, Fragment } from "react";
 // Fancy background animation
 import Particles from "react-particles-js";
 
-import ImageHeader from "./../../Images/oct9_2.png";
+import bg1 from "./../../Images/oct9_2.png";
 import bg2 from "./../../Images/global2.png";
+import bg3 from "./../../Images/global4.png";
 
 const particlesParam = {
   particles: {
@@ -44,10 +45,10 @@ export default class Backround extends Component {
             position: "fixed",
             width: "100%",
             height: "100%",
-            top: "-30%",
+            top: "-35%",
             right: "-50%",
             background:
-              "linear-gradient(to right bottom, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
+              "linear-gradient(to left bottom, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
             transform: "skewX(30deg)",
             overflow: "hidden"
           }}
@@ -58,10 +59,10 @@ export default class Backround extends Component {
             position: "fixed",
             width: "100%",
             height: "100%",
-            bottom: "-30%",
+            bottom: "-35%",
             left: "-50%",
             background:
-              "linear-gradient(to right bottom, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
+              "linear-gradient(to right top, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
             transform: "skewX(30deg)",
             overflow: "hidden"
           }}
@@ -76,7 +77,7 @@ export default class Backround extends Component {
             backgroundPosition: "left",
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${ImageHeader})`,
+            backgroundImage: `url(${bg1})`,
             bottom: "-3%"
           }}
         />
@@ -95,6 +96,19 @@ export default class Backround extends Component {
             right: "-5%"
           }}
         >
+          <div
+            style={{
+              position: "fixed",
+              width: "100%",
+              height: "100%",
+              opacity: "0.6",
+              backgroundPosition: "right",
+              backgroundSize: "40%",
+              backgroundRepeat: "no-repeat",
+              backgroundImage: `url(${bg3})`,
+              top: "-30%"
+            }}
+          />
           <Particles params={particlesParam} />
         </div>
       </Fragment>

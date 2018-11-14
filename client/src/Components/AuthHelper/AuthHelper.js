@@ -1,9 +1,10 @@
 import jwtDecode from "jwt-decode";
 import localStorage from "localStorage";
+import sessionstorage from "sessionstorage";
 
 export function isLoggedIn() {
   const token = getToken();
-  return !!token && !isTokenExpired(token); // handwaiving here
+  return !!token && !isTokenExpired(token); // handwaving here
 }
 
 export function isTokenExpired(token) {
@@ -17,27 +18,25 @@ export function isTokenExpired(token) {
   }
 }
 
-export function setToken(token) {
-  const rememberMe = jwtDecode(token).rememberMe;
-
-  console.log(rememberMe);
-
-  //   localStorage.setItem("cp-refreshToken", token);
-}
-
 export function getToken() {
-  return localStorage.getItem("cp-refreshToken");
+  const token =
+    localStorage.getItem("cp-refreshToken") ||
+    sessionstorage.getItem("cp-refreshToken");
+  return token;
 }
 
 export function removeToken() {
+  // Remove from localStorage
+  localStorage.removeItem("cp-token");
   localStorage.removeItem("cp-refreshToken");
+  // Remove from sessionStorage
+  sessionstorage.removeItem("cp-token");
+  sessionstorage.removeItem("cp-refreshToken");
 }
 
 export function decodeToken() {
-  return jwtDecode(localStorage.getItem("cp-refreshToken"));
-}
-
-export function isRememberMe() {
-  const decodedToken = jwtDecode(localStorage.getItem("cp-refreshToken"));
-  return decodedToken.rememberMe;
+  const token =
+    localStorage.getItem("cp-refreshToken") ||
+    sessionstorage.getItem("cp-refreshToken");
+  return jwtDecode(token);
 }

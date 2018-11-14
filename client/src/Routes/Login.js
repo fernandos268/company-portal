@@ -3,6 +3,7 @@ import { graphql } from "react-apollo";
 import { loginMutation } from "./../Queries/mutations";
 import jwtDecode from "jwt-decode";
 import { isLoggedIn } from "../Components/AuthHelper/AuthHelper";
+import sessionstorage from "sessionstorage";
 
 import {
   Form,
@@ -13,8 +14,10 @@ import {
   Row,
   Col,
   Card,
-  Alert
+  Alert,
+  message
 } from "antd";
+
 import {
   Image,
   Header,
@@ -53,9 +56,19 @@ class LoginForm extends Component {
         const { ok, token, refreshToken, errors } = response.data.login;
 
         if (ok) {
-          localStorage.setItem("cp-token", token);
-          localStorage.setItem("cp-refreshToken", refreshToken);
-          this.props.history.replace("/");
+          if (jwtDecode(token).isActive) {
+            if (jwtDecode(token).rememberMe) {
+              localStorage.setItem("cp-token", token);
+              localStorage.setItem("cp-refreshToken", refreshToken);
+            } else {
+              sessionstorage.setItem("cp-token", token);
+              sessionstorage.setItem("cp-refreshToken", refreshToken);
+            }
+            message.success(`Welcome ${jwtDecode(token).username}`);
+            this.props.history.replace("/");
+          } else {
+            this.setState({ error: "Account is not active" });
+          }
         } else {
           const err = {};
           errors.forEach(({ path, message }) => {
@@ -72,6 +85,8 @@ class LoginForm extends Component {
 
   componentWillMount() {
     if (isLoggedIn()) this.props.history.replace("/");
+
+    this.props.form.validateFields();
   }
 
   render() {
@@ -81,11 +96,6 @@ class LoginForm extends Component {
       getFieldError,
       isFieldTouched
     } = this.props.form;
-
-    // Only show error after a field is touched.
-    const userNameError = isFieldTouched("email") && getFieldError("email");
-    const passwordError =
-      isFieldTouched("password") && getFieldError("password");
 
     const { error } = this.state;
 
@@ -104,12 +114,15 @@ class LoginForm extends Component {
         >
           <Col xs={20} sm={18} md={16} lg={7} xl={5}>
             <Card
+              bordered={false}
+              headStyle={{
+                background: "#1890ff"
+              }}
               title={
-                <Header as="h3" color="grey" textAlign="left">
+                <Header as="h2" style={{ color: "white" }} textAlign="left">
                   Login
                 </Header>
               }
-              headStyle={{}}
               actions={[
                 <a
                   name="forgotpassword"

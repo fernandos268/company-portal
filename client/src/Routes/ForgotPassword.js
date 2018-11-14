@@ -87,6 +87,7 @@ class ForgotPasswordForm extends Component {
                 <div>
                   <Button
                     type="primary"
+                    ghost
                     onClick={e => {
                       this.props.history.replace("/");
                     }}
