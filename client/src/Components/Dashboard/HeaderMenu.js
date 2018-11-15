@@ -20,22 +20,20 @@ class HeaderMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: "home"
+      activeItem: "Dashboard"
     };
   }
 
   handleItemClick = (e, { name }) => {
     if (name !== this.state.activeItem) {
-      this.props.handleActiveItem(name);
+      // this.props.handleActiveItem(name);
       this.setState({ activeItem: name });
     }
   };
 
   handleUserMenuClick = e => {
     if (e.key === "MenuItem-Signout") {
-      removeToken();
-      this.props.history.replace("/login");
-      message.success("Successfully logged out");
+      this.props.handleLogout();
     }
   };
 
@@ -72,7 +70,8 @@ class HeaderMenu extends Component {
         style={{
           height: "auto",
           padding: "0%",
-          background: "linear-gradient(to right, #009EFA,#00D2FC)"
+          background:
+            "linear-gradient(to right, #009EFA,#00D2FC,#00d1ff, #00e8fe)"
         }}
       >
         <Grid columns={2} stackable>
@@ -100,7 +99,8 @@ class HeaderMenu extends Component {
               width={14}
               style={{
                 padding: "0",
-                background: "linear-gradient(to right, #009EFA,#00D2FC)",
+                background:
+                  "linear-gradient(to right, #009EFA,#00D2FC,#00d1ff, #00e8fe)",
                 overflow: "visible",
                 transform: "skewX(35deg)"
               }}
@@ -127,23 +127,23 @@ class HeaderMenu extends Component {
                   <Menu.Item header />
                   <Menu.Item
                     as={Link}
-                    to="/home"
-                    name="home"
-                    active={activeItem === "home"}
+                    to="/Home/Dashboard"
+                    name="Dashboard"
+                    active={activeItem === "Dashboard"}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
                     as={Link}
-                    to="/users"
-                    name="users"
-                    active={activeItem === "users"}
+                    to="/Home/Users"
+                    name="Users"
+                    active={activeItem === "Users"}
                     onClick={this.handleItemClick}
                   />
                   <Menu.Item
                     as={Link}
-                    to="/posts"
-                    name="posts"
-                    active={activeItem === "posts"}
+                    to="/Home/Posts"
+                    name="Posts"
+                    active={activeItem === "Posts"}
                     onClick={this.handleItemClick}
                   />
 

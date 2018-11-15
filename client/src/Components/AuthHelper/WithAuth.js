@@ -36,6 +36,7 @@ export default function WithAuth(AuthComponent) {
       if (this.state.tokenContent) {
         return (
           <AuthComponent
+            {...this.props}
             history={this.props.history}
             tokenContent={this.state.tokenContent}
           />

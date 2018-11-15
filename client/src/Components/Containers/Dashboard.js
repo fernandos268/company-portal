@@ -20,15 +20,13 @@ import {
   Card
 } from "semantic-ui-react";
 
-class Users extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
-    return <div>USERS ROUTE COMPONENT</div>;
+    return <div>DASHBOARD CONTAINER</div>;
   }
 }
-
-export default Users;
