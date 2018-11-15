@@ -115,7 +115,7 @@ class App extends Component {
     if (isLoggedIn()) {
       removeToken();
       this.props.history.replace("/Login");
-      message.success("TESTING 123");
+      message.success("Account has been signed out");
     }
   };
 
