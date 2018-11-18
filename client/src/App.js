@@ -85,7 +85,7 @@ import { isLoggedIn, removeToken } from "./Components/AuthHelper/AuthHelper";
 // import Home from "./Routes/Home";
 
 // Layout Components
-import HeaderMenu from "./Components/Dashboard/HeaderMenu";
+import HeaderMenu from "./Components/Layout/HeaderMenu";
 
 // Container Components
 import Dashboard from "./Components/Containers/Dashboard";
@@ -120,7 +120,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <Router>
         <Layout>
@@ -129,15 +128,19 @@ class App extends Component {
               tokenContent={this.props.tokenContent}
               handleLogout={this.handleLogout}
             />
-            <Content style={{ margin: "24px 16px 0" }}>
+            <Content style={{ margin: "15px" }}>
               <Segment
-                style={{ padding: 24, background: "#fff", minHeight: 360 }}
+                style={{
+                  height: "87vh"
+                }}
               >
-                <Switch>
-                  <Route exact path="/Home/Dashboard" component={Dashboard} />
-                  <Route exact path="/Home/Users" component={Users} />
-                  <Route exact path="/Home/Posts" component={Posts} />
-                </Switch>
+                <Segment basic>
+                  <Switch>
+                    <Route exact path="/Home/Dashboard" component={Dashboard} />
+                    <Route exact path="/Home/Users" component={Users} />
+                    <Route exact path="/Home/Posts" component={Posts} />
+                  </Switch>
+                </Segment>
               </Segment>
             </Content>
           </Layout>

@@ -3,7 +3,7 @@ import { graphql } from "react-apollo";
 import { registrationMutation } from "./../Queries/mutations";
 import jwtDecode from "jwt-decode";
 import { isLoggedIn } from "../Components/AuthHelper/AuthHelper";
-
+import { withRouter } from "react-router-dom";
 import {
   Form,
   Icon,
@@ -26,8 +26,6 @@ import {
   Card as SUI_Card,
   Segment
 } from "semantic-ui-react";
-
-import { withRouter } from "react-router-dom";
 
 import Background from "../Components/Design/Background";
 
@@ -71,7 +69,7 @@ class RegisterForm extends Component {
 
           const { ok, errors } = response.data.createUser;
           if (ok) {
-            message.success("This is a message of success");
+            message.success("Account has been suceessfully created");
             this.props.history.replace("/");
           } else {
             if (errors[0].path === "email") {

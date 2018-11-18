@@ -6,10 +6,12 @@ const allUsers = gql`
       id
       firstName
       lastName
+      username
       email
+      role
+      isActive
       createdAt
       updatedAt
-      isActive
     }
   }
 `;
