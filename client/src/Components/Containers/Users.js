@@ -35,13 +35,12 @@ import UsersPlaceHolder from "../PlaceHolders/UsersPlaceHolder";
 class Users extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      users: []
-    };
+    this.state = {};
   }
 
   displayUsers() {
     const data = this.props.data;
+
     if (data.loading) {
       for (let i = 0; i >= 9; i++) {
         return <UsersPlaceHolder />;
