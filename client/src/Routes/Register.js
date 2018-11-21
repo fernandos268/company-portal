@@ -197,13 +197,13 @@ class RegisterForm extends Component {
                 <div className="steps-action">
                   <Button.Group>
                     {this.state.current > 0 && (
-                      <Button type="primary" ghost onClick={() => this.prev()}>
+                      <Button type="primary" onClick={() => this.prev()}>
                         <Icon type="left" />
                         Back
                       </Button>
                     )}
                     {this.state.current < steps.length - 1 && (
-                      <Button type="primary" ghost onClick={() => this.next()}>
+                      <Button type="primary" onClick={() => this.next()}>
                         Next
                         <Icon type="right" />
                       </Button>
@@ -228,6 +228,7 @@ class RegisterForm extends Component {
                     <Step key={item.title} title={item.title} />
                   ))}
                 </Steps>
+
                 <div className="steps-content">
                   <Form onSubmit={this.handleSubmit}>
                     <div

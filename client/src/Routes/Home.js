@@ -125,7 +125,10 @@ export default ({ match, tokenContent }) => {
           handleActiveItem={handleActiveItem}
         />
         <Content style={{ margin: "24px 16px 0" }}>
-          <Segment style={{ padding: 24, background: "#fff", minHeight: 360 }}>
+          <Segment
+            raised
+            style={{ padding: 24, background: "#fff", minHeight: 360 }}
+          >
             <Router>
               <Switch>
                 <Route render={() => <h1>DEFAULT COMPONENT RENDERED</h1>} />

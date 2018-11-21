@@ -56,6 +56,7 @@ import { Provider } from "react-redux";
 import rootReducer from "./Reducers/rootReducer";
 import localStorage from "localStorage";
 import jwtDecode from "jwt-decode";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -122,18 +123,30 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Layout>
-          <Layout style={{ height: "100vh", overflow: "hidden" }}>
+        <Layout
+          style={{
+            position: "fixed",
+            top: "0",
+            bottom: "0",
+            right: "0",
+            left: "0"
+          }}
+        >
+          <Layout
+            style={{
+              position: "absolute",
+              top: "0",
+              bottom: "0",
+              right: "0",
+              left: "0"
+            }}
+          >
             <HeaderMenu
               tokenContent={this.props.tokenContent}
               handleLogout={this.handleLogout}
             />
-            <Content style={{ margin: "15px" }}>
-              <Segment
-                style={{
-                  height: "87vh"
-                }}
-              >
+            <Content style={{ margin: "15px", height: "100%" }}>
+              <Segment raised style={{ height: "100%", overflowY: "auto" }}>
                 <Segment basic>
                   <Switch>
                     <Route exact path="/Home/Dashboard" component={Dashboard} />

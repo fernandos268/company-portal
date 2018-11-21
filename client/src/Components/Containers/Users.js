@@ -12,7 +12,8 @@ import {
   Button as Ant_Button,
   message as Ant_Message,
   Table as Ant_Table,
-  Badge as Ant_Badge
+  Badge as Ant_Badge,
+  Modal as Ant_Modal
 } from "antd";
 
 import {
@@ -35,8 +36,30 @@ import UsersPlaceHolder from "../PlaceHolders/UsersPlaceHolder";
 class Users extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visible: false
+    };
   }
+
+  handleModalVisibility = () => {
+    this.setState({
+      visible: true
+    });
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
 
   displayUsers() {
     const data = this.props.data;
@@ -46,65 +69,67 @@ class Users extends Component {
         return <UsersPlaceHolder />;
       }
     } else {
-      return data.allUsers.map(user => {
-        console.log(user.id);
-        return (
-          <SUI_Grid.Column>
-            <SUI_Segment basic style={{ padding: "0px" }}>
-              <SUI_Card fluid link key={user.id}>
-                <SUI_Card.Content>
-                  <SUI_Segment basic>
-                    <SUI_Item.Group>
-                      <SUI_Item>
-                        <SUI_Item.Image
-                          size="tiny"
-                          src="https://react.semantic-ui.com/images/wireframe/image.png"
-                        />
-                        <SUI_Item.Content>
-                          <SUI_Item.Header>{user.username}</SUI_Item.Header>
-                          <SUI_Item.Meta>{`${user.firstName} ${
-                            user.lastName
-                          }`}</SUI_Item.Meta>
-                          <SUI_Item.Description>
-                            <SUI_List>
-                              <SUI_List.Item>
-                                <SUI_List.Icon name="user" />
-                                <SUI_List.Content>
-                                  {`Role: ${user.role}`}
-                                </SUI_List.Content>
-                              </SUI_List.Item>
-                              <SUI_List.Item>
-                                <SUI_List.Icon name="mail" />
-                                <SUI_List.Content>
-                                  {`Email: ${user.email}`}
-                                </SUI_List.Content>
-                              </SUI_List.Item>
-                              <SUI_List.Item>
-                                <SUI_List.Icon name="calendar alternate outline" />
-                                <SUI_List.Content>
-                                  {`Created : ${new Date(
-                                    user.createdAt
-                                  ).toLocaleDateString()}`}
-                                </SUI_List.Content>
-                              </SUI_List.Item>
-                            </SUI_List>
-                          </SUI_Item.Description>
-                          <SUI_Item.Extra>
-                            <Ant_Badge
-                              status={user.isActive ? "success" : "error"}
-                              text={user.isActive ? "Active" : "Inactive"}
-                            />
-                          </SUI_Item.Extra>
-                        </SUI_Item.Content>
-                      </SUI_Item>
-                    </SUI_Item.Group>
-                  </SUI_Segment>
-                </SUI_Card.Content>
-              </SUI_Card>
-            </SUI_Segment>
-          </SUI_Grid.Column>
-        );
-      });
+      if (data.allUsers) {
+        return data.allUsers.map(user => {
+          return (
+            <SUI_Grid.Column key={user.id}>
+              <SUI_Segment basic style={{ padding: "0px" }}>
+                <SUI_Card fluid link onClick={this.handleModalVisibility}>
+                  <SUI_Card.Content
+                    header={`${user.firstName} ${user.lastName}`}
+                  />
+                  <SUI_Card.Content
+                    description={
+                      <SUI_Item.Group>
+                        <SUI_Item>
+                          <SUI_Item.Image
+                            size="tiny"
+                            src="https://react.semantic-ui.com/images/wireframe/image.png"
+                          />
+                          <SUI_Item.Content>
+                            <SUI_Item.Header>{user.username}</SUI_Item.Header>
+                            <SUI_Item.Description>
+                              <SUI_List>
+                                <SUI_List.Item>
+                                  <SUI_List.Icon name="user" />
+                                  <SUI_List.Content>
+                                    {`Role: ${user.role}`}
+                                  </SUI_List.Content>
+                                </SUI_List.Item>
+                                <SUI_List.Item>
+                                  <SUI_List.Icon name="mail" />
+                                  <SUI_List.Content>
+                                    {`Email: ${user.email}`}
+                                  </SUI_List.Content>
+                                </SUI_List.Item>
+                                <SUI_List.Item>
+                                  <SUI_List.Icon name="calendar alternate outline" />
+                                  <SUI_List.Content>
+                                    {`Created : ${new Date(
+                                      user.createdAt
+                                    ).toLocaleDateString()}`}
+                                  </SUI_List.Content>
+                                </SUI_List.Item>
+                              </SUI_List>
+                            </SUI_Item.Description>
+                            <SUI_Item.Extra />
+                          </SUI_Item.Content>
+                        </SUI_Item>
+                      </SUI_Item.Group>
+                    }
+                  />
+                  <SUI_Card.Content extra>
+                    <Ant_Badge
+                      status={user.isActive ? "success" : "error"}
+                      text={user.isActive ? "Active" : "Inactive"}
+                    />
+                  </SUI_Card.Content>
+                </SUI_Card>
+              </SUI_Segment>
+            </SUI_Grid.Column>
+          );
+        });
+      }
     }
   }
 
@@ -114,6 +139,16 @@ class Users extends Component {
         <SUI_Grid.Column>
           <SUI_Grid columns={4} stackable style={{ overflowY: "auto" }}>
             {this.displayUsers()}
+            <Ant_Modal
+              title="Basic Modal"
+              visible={this.state.visible}
+              onOk={this.handleOk}
+              onCancel={this.handleCancel}
+            >
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+            </Ant_Modal>
           </SUI_Grid>
         </SUI_Grid.Column>
       </SUI_Grid>
