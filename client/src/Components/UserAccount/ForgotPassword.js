@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
-import { loginMutation } from "./../Queries/mutations";
+import { loginMutation } from "../../Queries/mutations";
 import jwtDecode from "jwt-decode";
-import { isLoggedIn } from "../Components/AuthHelper/AuthHelper";
+import { isLoggedIn } from "../AuthHelper/AuthHelper";
 
 import {
   Form,
@@ -26,7 +26,7 @@ import {
 
 import { withRouter } from "react-router-dom";
 
-import Background from "../Components/Design/Background";
+import Background from "../Design/Background";
 
 import { throwError } from "rxjs";
 

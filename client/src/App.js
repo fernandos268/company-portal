@@ -86,11 +86,11 @@ import { isLoggedIn, removeToken } from "./Components/AuthHelper/AuthHelper";
 // import Home from "./Routes/Home";
 
 // Layout Components
-import HeaderMenu from "./Components/Layout/HeaderMenu";
+import HeaderMenu from "./Components/Header/HeaderMenu";
 
 // Container Components
 import Dashboard from "./Components/Containers/Dashboard";
-import Users from "./Components/Containers/Users";
+import Users from "./Components/Users/Users";
 import Posts from "./Components/Containers/Posts";
 
 const { Header, Content, Footer, Sider } = Layout;

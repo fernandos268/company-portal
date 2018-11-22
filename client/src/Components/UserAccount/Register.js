@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
-import { registrationMutation } from "./../Queries/mutations";
+import { registrationMutation } from "../../Queries/mutations";
+import { allUsers } from "../../Queries/queries";
 import jwtDecode from "jwt-decode";
-import { isLoggedIn } from "../Components/AuthHelper/AuthHelper";
+import { isLoggedIn } from "../AuthHelper/AuthHelper";
 import { withRouter } from "react-router-dom";
 import {
   Form,
@@ -27,7 +28,7 @@ import {
   Segment
 } from "semantic-ui-react";
 
-import Background from "../Components/Design/Background";
+import Background from "../Design/Background";
 
 import { throwError } from "rxjs";
 
@@ -64,7 +65,8 @@ class RegisterForm extends Component {
               password: values.password,
               role: "default",
               isActive: false
-            }
+            },
+            refetchQueries: [{ query: allUsers }]
           });
 
           const { ok, errors } = response.data.createUser;

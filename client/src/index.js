@@ -11,9 +11,9 @@ import "antd/dist/antd.css";
 // Import Main styles for this application
 import "./scss/style.css";
 
-import Login from "./Routes/Login";
-import Register from "./Routes/Register";
-import ForgotPassword from "./Routes/ForgotPassword";
+import Login from "./Components/UserAccount/Login";
+import Register from "./Components/UserAccount/Register";
+import ForgotPassword from "./Components/UserAccount/ForgotPassword";
 
 import App from "./App";
 
