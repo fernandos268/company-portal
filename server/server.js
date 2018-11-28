@@ -12,17 +12,6 @@ const path = "/graphql";
 
 const app = express();
 
-// const addUser = async (req, res) => {
-//   const token = req.headers.authorization;
-//   try {
-//     const { user } = await jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = user;
-//   } catch (err) {
-//     console.log(err);
-//   }
-//   req.next();
-// };
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -32,8 +21,6 @@ const server = new ApolloServer({
 });
 
 app.use(cors({ origin: "http://localhost:3001" }));
-
-// app.use(path, addUser);
 
 //Mount a jwt or other authentication middleware that is run before the GraphQL execution
 app.use(

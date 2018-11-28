@@ -3,6 +3,12 @@ import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { ApolloProvider, createNetworkInterface, graphql } from "react-apollo";
+
+// Redux Components
+import { Provider } from "react-redux";
+import store from "./Store/Store";
+import { addPost } from "./Actions/Actions";
+
 // CSS Libraries
 import "semantic-ui-css/semantic.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,6 +23,9 @@ import ForgotPassword from "./Components/UserAccount/ForgotPassword";
 
 import App from "./App";
 
+window.store = store;
+window.addPost = addPost;
+
 //apollo client setup
 const client = new ApolloClient({
   uri: "http://localhost:3080/graphql"
@@ -24,16 +33,18 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/Home" component={App} />
-        <Route path="/Login" component={Login} />
-        <Route path="/Register" component={Register} />
-        <Route path="/ForgotPassword" component={ForgotPassword} />
-        <Route render={() => <h1>Page Not Found</h1>} />
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/Home" component={App} />
+          <Route path="/Login" component={Login} />
+          <Route path="/Register" component={Register} />
+          <Route path="/ForgotPassword" component={ForgotPassword} />
+          <Route render={() => <h1>Page Not Found</h1>} />
+        </Switch>
+      </Router>
+    </Provider>
   </ApolloProvider>,
   document.getElementById("root")
 );

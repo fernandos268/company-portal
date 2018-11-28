@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  isLoggedIn,
-  removeToken,
-  decodeToken,
-  isRememberMe
-} from "./AuthHelper";
+import { isLoggedIn, removeToken, decodeToken } from "./AuthHelper";
 export default function WithAuth(AuthComponent) {
   return class AuthWrapped extends Component {
     constructor() {

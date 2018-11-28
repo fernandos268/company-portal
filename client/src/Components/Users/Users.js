@@ -2,34 +2,15 @@ import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
 import { allUsers } from "../../Queries/queries";
 import { withRouter, Link } from "react-router-dom";
-import {
-  Layout as Ant_Layout,
-  Icon as Ant_Icon,
-  Row as Ant_Row,
-  Col as Ant_Col,
-  Menu as Ant_Menu,
-  Dropdown as Ant_Dropdown,
-  Button as Ant_Button,
-  message as Ant_Message,
-  Table as Ant_Table,
-  Badge as Ant_Badge,
-  Modal as Ant_Modal,
-  Avatar as Ant_Avatar
-} from "antd";
+
+import { Modal as Ant_Modal, Avatar as Ant_Avatar } from "antd";
 
 import {
-  Menu as SUI_Menu,
-  Segment as SUI_Segment,
-  Image as SUI_Image,
   Grid as SUI_Grid,
   Card as SUI_Card,
-  Dimmer as SUI_Dimmer,
-  Loader as SUI_Loader,
-  Icon as SUI_Icon,
   Item as SUI_Item,
   List as SUI_List,
-  Label as SUI_Label,
-  Placeholder
+  Label as SUI_Label
 } from "semantic-ui-react";
 
 // IMPORT PLACEHOLDERS
@@ -45,7 +26,7 @@ class Users extends Component {
 
   handleModalVisibility = () => {
     this.setState({
-      visible: true
+      visible: !this.state.visible
     });
   };
 

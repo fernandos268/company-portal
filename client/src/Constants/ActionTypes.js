@@ -1,0 +1,11 @@
+// POSTS ACTIONS
+export const ADD_POST = "ADD_POST";
+export const UPDATE_POST = "UPDATE_POST";
+export const ARCHIVE_POST = "ARCHIVE_POST";
+export const TOGGLE_POST_FORM = "TOGGLE_POST_FORM";
+
+// USER ACTIONS
+export const ADD_USER = "ADD_USER";
+export const UPDATE_PROFILE = "UPDATE_USER";
+export const ACTIVATE_USER = "ACTIVATE_USER";
+export const DEACTIVATE_USER = "DEACTIVATE_USER";

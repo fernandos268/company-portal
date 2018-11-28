@@ -91,16 +91,9 @@ import HeaderMenu from "./Components/Header/HeaderMenu";
 // Container Components
 import Dashboard from "./Components/Containers/Dashboard";
 import Users from "./Components/Users/Users";
-import Posts from "./Components/Containers/Posts";
+import Posts from "./Components/Posts/Posts";
 
 const { Header, Content, Footer, Sider } = Layout;
-
-//apollo client setup
-const client = new ApolloClient({
-  uri: "http://localhost:3080/graphql"
-});
-
-const store = createStore(rootReducer);
 
 class App extends Component {
   constructor(props) {
