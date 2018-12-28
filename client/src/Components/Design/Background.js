@@ -50,7 +50,8 @@ export default class Backround extends Component {
             background:
               "linear-gradient(to left bottom, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
             transform: "skewX(30deg)",
-            overflow: "hidden"
+            overflow: "hidden",
+            boxShadow: "-1px 7px 28px -1px rgba(39,39,39,0.74)"
           }}
         />
 
@@ -64,7 +65,8 @@ export default class Backround extends Component {
             background:
               "linear-gradient(to right top, #845EC2, #2C73D2, #0081CF, #0089BA, #008E9B,#008F7A)",
             transform: "skewX(30deg)",
-            overflow: "hidden"
+            overflow: "hidden",
+            boxShadow: "-1px 7px 28px -1px rgba(39,39,39,0.74)"
           }}
         />
 

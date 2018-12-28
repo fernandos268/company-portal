@@ -70,7 +70,7 @@ class Signin_Form extends Component {
           localStorage.setItem("token", token);
           localStorage.setItem("refreshToken", refreshToken);
           this.props.history.push("/");
-          console.log(jwtDecode(token));
+          // console.log(jwtDecode(token));
         } else {
           const err = {};
           errors.forEach(({ path, message }) => {
@@ -120,7 +120,7 @@ class Signin_Form extends Component {
           align="middle"
         >
           <Col xs={20} sm={18} md={16} lg={7} xl={5}>
-            <Card>
+            <Card style={{ boxShadow: "10px 20px 30px blue" }}>
               <br />
 
               {error !== "" ? (

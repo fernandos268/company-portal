@@ -83,6 +83,7 @@ class ForgotPasswordForm extends Component {
         >
           <Col xs={18} sm={14} md={16} lg={7} xl={5}>
             <Card
+              style={{ boxShadow: "0px 2px 113px 4px rgba(69,69,69,0.74)" }}
               title={
                 <div>
                   <Button

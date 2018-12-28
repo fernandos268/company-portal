@@ -28,6 +28,8 @@ export default function WithAuth(AuthComponent) {
     }
 
     render() {
+      console.log(this.props.history);
+
       if (this.state.tokenContent) {
         return (
           <AuthComponent
