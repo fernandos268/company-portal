@@ -100,7 +100,7 @@ module.exports.tryLogin = async (email, password, rememberMe, userModel) => {
     // bad password
     return {
       ok: false,
-      errors: [{ path: "password", message: "Wrong password" }]
+      errors: [{ path: "password", message: "Password does not match" }]
     };
   }
 

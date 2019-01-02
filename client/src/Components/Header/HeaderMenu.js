@@ -72,7 +72,7 @@ class HeaderMenu extends Component {
           padding: "0%",
           background:
             "linear-gradient(to right, #009EFA,#00D2FC,#00d1ff, #00e8fe)",
-          boxShadow: " 1px -14px 102px -9px rgba(95,95,95,0.74)"
+          boxShadow: "0px 0px 28px -2px rgba(150,150,150,1)"
         }}
       >
         <Grid columns={2} stackable>
